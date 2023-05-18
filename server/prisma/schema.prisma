@@ -9,3 +9,40 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String    @id @default(uuid())
+  userName  String    @map("user_name")
+  imagePath String
+  ownPins   Pin[]     @relation(name: "ownPins")
+  savedPins Pin[]     @relation(name: "savedPins")
+  comments  Comment[]
+
+  @@map("users")
+}
+
+model Pin {
+  id          String    @id @default(uuid())
+  title       String
+  about       String
+  destination String
+  category    String
+  imagePath   String    @map("image_path")
+  ownerId     String    @map("owner_id")
+  owner       User      @relation(name: "ownPins", fields: [ownerId], references: [id])
+  savedBy     User[]    @relation(name: "savedPins")
+  comments    Comment[]
+
+  @@map("pins")
+}
+
+model Comment {
+  id          String @id @default(uuid())
+  description String
+  pinId       String @map("pin_id")
+  pin         Pin    @relation(fields: [pinId], references: [id])
+  ownerId     String @map("owner_id")
+  owner       User   @relation(fields: [ownerId], references: [id])
+
+  @@map("comments")
+}
