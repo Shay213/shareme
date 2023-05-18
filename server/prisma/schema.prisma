@@ -13,7 +13,7 @@ datasource db {
 model User {
   id        String    @id @default(uuid())
   userName  String    @map("user_name")
-  imagePath String
+  imagePath String    @map("image_path")
   ownPins   Pin[]     @relation(name: "ownPins")
   savedPins Pin[]     @relation(name: "savedPins")
   comments  Comment[]

@@ -4,11 +4,12 @@ config();
 
 // plugins
 import prismaPlugin from "./plugins/prisma";
+import uploadFile from "./plugins/uploadFile";
 
 const fastify = Fastify({ logger: true });
 
 fastify.register(prismaPlugin);
-console.log("hel");
+fastify.register(uploadFile);
 
 const start = async () => {
   try {
