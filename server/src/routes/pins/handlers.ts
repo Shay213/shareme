@@ -1,5 +1,5 @@
 import { RouteHandler } from "fastify";
-import { GetSpecificPinsBody, GetSpecificPinsParams } from "./schemas";
+import { GetPinsByCategoryParams } from "./schemas";
 
 export const getPins: RouteHandler = async (req, reply) => {
   try {
@@ -30,27 +30,14 @@ export const getPins: RouteHandler = async (req, reply) => {
   }
 };
 
-export const getSpecificPins: RouteHandler<{
-  Params: GetSpecificPinsParams;
-  Body: GetSpecificPinsBody;
+export const getPinsByCategory: RouteHandler<{
+  Params: GetPinsByCategoryParams;
 }> = async (req, reply) => {
   const { categoryId } = req.params;
-  const { searchTerm } = req.body;
-
-  const filters = {
-    ...(categoryId && { category: categoryId }),
-    ...(searchTerm && {
-      OR: {
-        title: { contains: searchTerm },
-        category: { contains: searchTerm },
-        about: { contains: searchTerm },
-      },
-    }),
-  };
 
   try {
     const pins = await req.server.prisma.pin.findMany({
-      where: { AND: { ...filters } },
+      where: { category: categoryId },
       select: {
         id: true,
         imagePath: true,

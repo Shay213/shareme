@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Spinner, MasonryLayout } from '.'
 import { useQuery } from '@tanstack/react-query'
 import newRequest from '../utils/newRequest'
@@ -10,8 +10,15 @@ const Feed = () => {
 
 	const { data, refetch } = useQuery({
 		queryKey: ['feed'],
-		queryFn: () => newRequest.get('/test'),
+		queryFn: () => newRequest.get(`/pins${categoryId ? '/' + categoryId : ''}`),
 	})
+
+	/*useEffect(() => {
+		setLoading(true)
+		if(categoryId){
+			refetch().then(() => setLoading(false))
+		}
+	}, [categoryId])*/
 
 	if (loading)
 		return <Spinner message='We are adding new ideas to your feed!' />

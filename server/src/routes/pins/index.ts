@@ -1,12 +1,12 @@
 import { FastifyInstance } from "fastify";
-import { getPinsSchema, getSpecificPinsSchema } from "./schemas";
-import { getPins, getSpecificPins } from "./handlers";
+import { getPinsSchema, getPinsByCategorySchema } from "./schemas";
+import { getPins, getPinsByCategory } from "./handlers";
 
 export default async (fastify: FastifyInstance) => {
   fastify.get("/pins", { schema: getPinsSchema }, getPins);
   fastify.get(
     "/pins/:categoryId",
-    { schema: getSpecificPinsSchema },
-    getSpecificPins
+    { schema: getPinsByCategorySchema },
+    getPinsByCategory
   );
 };

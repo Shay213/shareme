@@ -35,7 +35,7 @@ export const getPinsSchema: FastifySchema = {
   },
 };
 
-const getSpecificPinsParams = {
+const getPinsByCategoryParams = {
   type: "object",
   properties: {
     categoryId: { type: "string" },
@@ -43,19 +43,12 @@ const getSpecificPinsParams = {
   required: ["categoryId"],
 } as const;
 
-export type GetSpecificPinsParams = FromSchema<typeof getSpecificPinsParams>;
+export type GetPinsByCategoryParams = FromSchema<
+  typeof getPinsByCategoryParams
+>;
 
-const getSpecificPinsBody = {
-  type: "object",
-  properties: {
-    searchTerm: { type: "string" },
-  },
-  required: ["searchTerm"],
-};
-
-export const getSpecificPinsSchema: FastifySchema = {
-  params: getSpecificPinsParams,
-  body: getSpecificPinsBody,
+export const getPinsByCategorySchema: FastifySchema = {
+  params: getPinsByCategoryParams,
   response: {
     200: {
       type: "array",
