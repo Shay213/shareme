@@ -14,11 +14,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cors": "^8.2.1",
     "@fastify/multipart": "^7.6.0",
     "@prisma/client": "^4.14.1",
     "dotenv": "^16.0.3",
     "fastify": "^4.17.0",
-    "fastify-plugin": "^4.5.0"
+    "fastify-plugin": "^4.5.0",
+    "json-schema-to-ts": "^2.8.2"
   },
   "devDependencies": {
     "@types/node": "^20.2.0",

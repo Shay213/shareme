@@ -14,16 +14,18 @@ const uploadFile: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.register(fastifyMultipart);
 
   fastify.addHook("onRequest", async (req, reply) => {
-    let body = {};
-    const parts = req.parts();
-    for await (const part of parts) {
-      if (part.type === "file") {
-        await pump(part.file, fs.createWriteStream(part.filename));
-      } else {
-        body = { ...body, [part.fieldname]: part.value };
+    if (req.isMultipart()) {
+      let body = {};
+      const parts = req.parts();
+      for await (const part of parts) {
+        if (part.type === "file") {
+          await pump(part.file, fs.createWriteStream(part.filename));
+        } else {
+          body = { ...body, [part.fieldname]: part.value };
+        }
       }
+      req.body = body;
     }
-    req.body = body;
   });
 
   done();
