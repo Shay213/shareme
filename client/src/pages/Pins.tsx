@@ -3,7 +3,7 @@ import { Navbar, Feed, PinDetail, CreatePin, Search } from '../components'
 import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
-const Pins = ({ user }: { user: User }) => {
+const Pins = ({ user }: { user?: User }) => {
 	const [searchTerm, setSearchTerm] = useState('')
 	return (
 		<div className='px-2 md:px-5'>

@@ -17,7 +17,7 @@ const Home = () => {
 		: localStorage.clear()
 
 	const { data } = useQuery<User>({
-		queryKey: [`user:${userInfo.id}`],
+		queryKey: ['user', userInfo.id],
 		queryFn: () =>
 			newRequest.get(`users/${userInfo.id}`).then((res) => res.data),
 	})
