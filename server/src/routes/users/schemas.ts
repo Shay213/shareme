@@ -1,6 +1,5 @@
 import { FastifySchema } from "fastify";
 import { FromSchema } from "json-schema-to-ts";
-import { Pin, Comment } from "@prisma/client";
 
 const pins = {
   type: "object",

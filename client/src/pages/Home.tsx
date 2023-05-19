@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, Route, Routes } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import newRequest from '../utils/newRequest'
+import { User } from '../interfaces'
 
 const Home = () => {
 	const [toggleSidebar, setToggleSidebar] = useState(false)
@@ -15,7 +16,7 @@ const Home = () => {
 		? JSON.parse(localStorage.getItem('currUser') as string)
 		: localStorage.clear()
 
-	const { isLoading, data } = useQuery({
+	const { data } = useQuery<User>({
 		queryKey: [`user:${userInfo.id}`],
 		queryFn: () =>
 			newRequest.get(`users/${userInfo.id}`).then((res) => res.data),
