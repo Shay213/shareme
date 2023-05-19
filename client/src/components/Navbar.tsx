@@ -31,12 +31,12 @@ const Navbar = ({ searchTerm, setSearchTerm, user }: NavbarProps) => {
 					<img
 						src={user?.imagePath}
 						alt='user'
-						className='w-14 h-12 rounded-lg'
+						className='h-12 w-14 rounded-lg'
 					/>
 				</Link>
 				<Link
 					to='/create-pin'
-					className='bg-black text-white rounded-lg w-12 h-12 md:w-14 md:h-12 flex justify-center items-center'
+					className='flex h-12 w-12 items-center justify-center rounded-lg bg-black text-white md:h-12 md:w-14'
 				>
 					<IoMdAdd />
 				</Link>
