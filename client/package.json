@@ -11,8 +11,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.11.0",
+    "axios": "^1.4.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
+    "react-loader-spinner": "^5.3.4",
+    "react-masonry-css": "^1.0.16",
+    "react-router-dom": "^6.11.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
