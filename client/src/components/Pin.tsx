@@ -2,7 +2,7 @@ import { FeedPin } from '../interfaces'
 import { MdDownloadForOffline } from 'react-icons/md'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { BsFillArrowUpRightCircleFill } from 'react-icons/bs'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import getCurrUser from '../utils/getCurrUser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -23,10 +23,20 @@ const Pin = ({ pin }: { pin: FeedPin }) => {
 		onError: (err) => console.log(err),
 	})
 
+	const mutation2 = useMutation({
+		mutationFn: (pinId: string) => newRequest.delete(`/pins/${pinId}`),
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['feed'] }),
+		onError: (err) => console.log(err),
+	})
+
 	const savePin = (id: string) => {
 		if (!alreadySaved && user) {
 			mutation.mutate({ pinId: id, userId: user.id })
 		}
+	}
+
+	const deletePin = (id: string) => {
+		mutation2.mutate(id)
 	}
 
 	return (
@@ -90,9 +100,55 @@ const Pin = ({ pin }: { pin: FeedPin }) => {
 								</button>
 							)}
 						</div>
+						<div className='flex w-full items-center justify-between gap-2'>
+							{pin.destination && (
+								<a
+									href={pin.destination}
+									target='_blank'
+									rel='noreferrer'
+									className={`
+                    flex items-center gap-2 rounded-full bg-white 
+                    p-2 px-4 font-bold text-black opacity-70 
+                    hover:opacity-100 hover:shadow-md
+                  `}
+								>
+									<BsFillArrowUpRightCircleFill />
+									{pin?.destination.length > 20
+										? pin.destination.slice(8, 20)
+										: pin?.destination.slice(8)}
+								</a>
+							)}
+							{pin?.owner?.id === user?.id && (
+								<button
+									type='button'
+									className={`
+                    outlined-none text-dark rounded-3xl bg-white
+                    p-2 text-base font-bold
+                    opacity-70 hover:opacity-100 hover:shadow-md
+                  `}
+									onClick={(e) => {
+										e.stopPropagation()
+										deletePin(pin?.id)
+									}}
+								>
+									<AiTwotoneDelete />
+								</button>
+							)}
+						</div>
 					</div>
 				)}
 			</div>
+			<Link
+				to={`/user-profile/${pin?.owner?.id}`}
+				className='mt-2 flex items-center gap-2'
+			>
+				<img
+					className='h-8 w-8 rounded-full object-cover'
+					src={pin?.owner?.imagePath}
+					alt='user-profile'
+				/>
+				<p className='font-semibold capitalize'>{pin?.owner?.userName}</p>
+			</Link>
 		</div>
 	)
 }

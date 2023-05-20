@@ -29,7 +29,7 @@ model Pin {
   category    String
   imagePath   String    @map("image_path")
   ownerId     String    @map("owner_id")
-  owner       User      @relation(name: "ownPins", fields: [ownerId], references: [id])
+  owner       User      @relation(name: "ownPins", fields: [ownerId], references: [id], onDelete: Cascade)
   savedBy     User[]    @relation(name: "savedPins")
   comments    Comment[]
 
@@ -40,9 +40,9 @@ model Comment {
   id          String @id @default(uuid())
   description String
   pinId       String @map("pin_id")
-  pin         Pin    @relation(fields: [pinId], references: [id])
+  pin         Pin    @relation(fields: [pinId], references: [id], onDelete: Cascade)
   ownerId     String @map("owner_id")
-  owner       User   @relation(fields: [ownerId], references: [id])
+  owner       User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
   @@map("comments")
 }

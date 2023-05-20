@@ -92,3 +92,24 @@ export const savePinSchema: FastifySchema = {
     200: savePinSuccessReply,
   },
 };
+
+const deletePinParams = {
+  ...savePinParams,
+} as const;
+
+export type DeletePinParams = FromSchema<typeof deletePinParams>;
+
+const deletePinSuccessReply = {
+  type: "object",
+  properties: {
+    message: { type: "string" },
+  },
+  required: ["message"],
+};
+
+export const deletePinSchema: FastifySchema = {
+  params: deletePinParams,
+  response: {
+    200: deletePinSuccessReply,
+  },
+};

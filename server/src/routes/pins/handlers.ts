@@ -1,5 +1,10 @@
 import { RouteHandler } from "fastify";
-import { GetPinsByCategoryParams, SavePinBody, SavePinParams } from "./schemas";
+import {
+  DeletePinParams,
+  GetPinsByCategoryParams,
+  SavePinBody,
+  SavePinParams,
+} from "./schemas";
 
 export const getPins: RouteHandler = async (req, reply) => {
   try {
@@ -78,6 +83,23 @@ export const savePin: RouteHandler<{
       },
     });
     return reply.code(200).send({ message: "Pin saved successfully!" });
+  } catch (error) {
+    return reply.code(500).send(error);
+  }
+};
+
+export const deletePin: RouteHandler<{ Params: DeletePinParams }> = async (
+  req,
+  reply
+) => {
+  const { pinId } = req.params;
+  try {
+    await req.server.prisma.pin.delete({
+      where: {
+        id: pinId,
+      },
+    });
+    return reply.code(200).send({ message: "Pin deleted successfully!" });
   } catch (error) {
     return reply.code(500).send(error);
   }
