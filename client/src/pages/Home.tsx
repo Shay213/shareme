@@ -7,19 +7,18 @@ import { Link, Route, Routes } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import newRequest from '../utils/newRequest'
 import { User } from '../interfaces'
+import getCurrUser from '../utils/getCurrUser'
 
 const Home = () => {
 	const [toggleSidebar, setToggleSidebar] = useState(false)
 	const scrollRef = useRef<HTMLDivElement | null>(null)
 
-	const userInfo = localStorage.getItem('currUser')
-		? JSON.parse(localStorage.getItem('currUser') as string)
-		: localStorage.clear()
+	const userInfo = getCurrUser()
 
 	const { data } = useQuery<User>({
-		queryKey: ['user', userInfo.id],
+		queryKey: ['user', userInfo?.id],
 		queryFn: () =>
-			newRequest.get(`users/${userInfo.id}`).then((res) => res.data),
+			newRequest.get(`users/${userInfo?.id}`).then((res) => res.data),
 	})
 
 	useEffect(() => {
@@ -28,7 +27,7 @@ const Home = () => {
 
 	return (
 		<div className='transition-height flex h-screen flex-col bg-gray-50 duration-75 ease-out md:flex-row'>
-			<div className='hidden md:flex h-screen flex-initial'>
+			<div className='hidden h-screen flex-initial md:flex'>
 				<Sidebar user={data && data} />
 			</div>
 			<div className='flex flex-row md:hidden'>

@@ -1,5 +1,5 @@
 import { RouteHandler } from "fastify";
-import { GetPinsByCategoryParams } from "./schemas";
+import { GetPinsByCategoryParams, SavePinBody, SavePinParams } from "./schemas";
 
 export const getPins: RouteHandler = async (req, reply) => {
   try {
@@ -59,6 +59,25 @@ export const getPinsByCategory: RouteHandler<{
       },
     });
     return reply.code(200).send(pins);
+  } catch (error) {
+    return reply.code(500).send(error);
+  }
+};
+
+export const savePin: RouteHandler<{
+  Params: SavePinParams;
+  Body: SavePinBody;
+}> = async (req, reply) => {
+  const { pinId } = req.params;
+  const { userId } = req.body;
+  try {
+    await req.server.prisma.pin.update({
+      where: { id: pinId },
+      data: {
+        savedBy: { connect: { id: userId } },
+      },
+    });
+    return reply.code(200).send({ message: "Pin saved successfully!" });
   } catch (error) {
     return reply.code(500).send(error);
   }

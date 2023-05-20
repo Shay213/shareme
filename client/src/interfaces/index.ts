@@ -22,3 +22,17 @@ export interface User {
 	savedPins: Pin[]
 	comments: Comment[]
 }
+
+interface FeedPinsUser {
+	id: string
+	userName: string
+	imagePath: string
+}
+
+export interface FeedPin {
+	id: string
+	imagePath: string
+	destination: string
+	owner: FeedPinsUser
+	savedBy: FeedPinsUser[]
+}

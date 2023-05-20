@@ -56,3 +56,39 @@ export const getPinsByCategorySchema: FastifySchema = {
     },
   },
 };
+
+const savePinParams = {
+  type: "object",
+  properties: {
+    pinId: { type: "string" },
+  },
+  required: ["pinId"],
+} as const;
+
+export type SavePinParams = FromSchema<typeof savePinParams>;
+
+const savePinBody = {
+  type: "object",
+  properties: {
+    userId: { type: "string" },
+  },
+  required: ["userId"],
+} as const;
+
+export type SavePinBody = FromSchema<typeof savePinBody>;
+
+const savePinSuccessReply = {
+  type: "object",
+  properties: {
+    message: { type: "string" },
+  },
+  required: ["message"],
+};
+
+export const savePinSchema: FastifySchema = {
+  params: savePinParams,
+  body: savePinBody,
+  response: {
+    200: savePinSuccessReply,
+  },
+};
