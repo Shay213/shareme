@@ -36,3 +36,17 @@ export interface FeedPin {
 	owner: FeedPinsUser
 	savedBy: FeedPinsUser[]
 }
+
+interface Comments {
+	id: string
+	description: string
+	ownerId: string
+	pinId: string
+}
+
+export interface DetailsPin extends FeedPin {
+	title: string
+	about: string
+	category: string
+	comments: Comments[]
+}

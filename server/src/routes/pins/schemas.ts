@@ -147,3 +147,47 @@ export const createPinSchema: FastifySchema = {
     },
   },
 };
+
+const getPinParams = {
+  type: "object",
+  properties: {
+    pinId: { type: "string" },
+  },
+  required: ["pinId"],
+} as const;
+
+export type GetPinParams = FromSchema<typeof getPinParams>;
+
+const { properties, ...rest } = pin;
+
+const getPinSuccessReply = {
+  type: "object",
+  properties: {
+    ...properties,
+    title: { type: "string" },
+    about: { type: "string" },
+    category: { type: "string" },
+    comments: {
+      type: "array",
+      items: [
+        {
+          type: "object",
+          properties: {
+            id: { type: "string" },
+            description: { type: "string" },
+            pinId: { type: "string" },
+            ownerId: { type: "string" },
+          },
+          required: ["id", "description", "pinId", "ownerId"],
+        },
+      ],
+    },
+  },
+};
+
+export const getPinSchema: FastifySchema = {
+  params: getPinParams,
+  response: {
+    200: getPinSuccessReply,
+  },
+};

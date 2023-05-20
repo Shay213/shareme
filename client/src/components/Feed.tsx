@@ -11,7 +11,7 @@ const Feed = () => {
 		queryKey: ['feed'],
 		queryFn: () =>
 			newRequest
-				.get(`/pins${categoryId ? '/' + categoryId : ''}`)
+				.get(`/pins${categoryId ? '/category/' + categoryId : ''}`)
 				.then((res) => res.data),
 	})
 

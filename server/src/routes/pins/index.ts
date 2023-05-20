@@ -5,6 +5,7 @@ import {
   savePinSchema,
   deletePinSchema,
   createPinSchema,
+  getPinSchema,
 } from "./schemas";
 import {
   getPins,
@@ -12,12 +13,14 @@ import {
   savePin,
   deletePin,
   createPin,
+  getPin,
 } from "./handlers";
 
 export default async (fastify: FastifyInstance) => {
   fastify.get("/", { schema: getPinsSchema }, getPins);
+  fastify.get("/:pinId", { schema: getPinSchema }, getPin);
   fastify.get(
-    "/:categoryId",
+    "/category/:categoryId",
     { schema: getPinsByCategorySchema },
     getPinsByCategory
   );

@@ -2,6 +2,7 @@ import { RouteHandler } from "fastify";
 import {
   CreatePinBody,
   DeletePinParams,
+  GetPinParams,
   GetPinsByCategoryParams,
   SavePinBody,
   SavePinParams,
@@ -123,6 +124,26 @@ export const createPin: RouteHandler<{ Body: CreatePinBody }> = async (
       },
     });
     return reply.code(200).send({ message: "Pin created successfully!" });
+  } catch (error) {
+    return reply.code(500).send(error);
+  }
+};
+
+export const getPin: RouteHandler<{ Params: GetPinParams }> = async (
+  req,
+  reply
+) => {
+  const { pinId } = req.params;
+  try {
+    const pin = await req.server.prisma.pin.findUnique({
+      where: { id: pinId },
+      include: {
+        owner: true,
+        savedBy: true,
+        comments: true,
+      },
+    });
+    return reply.code(200).send(pin);
   } catch (error) {
     return reply.code(500).send(error);
   }
