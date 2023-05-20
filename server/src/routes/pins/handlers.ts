@@ -1,5 +1,6 @@
 import { RouteHandler } from "fastify";
 import {
+  CreatePinBody,
   DeletePinParams,
   GetPinsByCategoryParams,
   SavePinBody,
@@ -100,6 +101,28 @@ export const deletePin: RouteHandler<{ Params: DeletePinParams }> = async (
       },
     });
     return reply.code(200).send({ message: "Pin deleted successfully!" });
+  } catch (error) {
+    return reply.code(500).send(error);
+  }
+};
+
+export const createPin: RouteHandler<{ Body: CreatePinBody }> = async (
+  req,
+  reply
+) => {
+  const { title, about, destination, category, imagePath, ownerId } = req.body;
+  try {
+    await req.server.prisma.pin.create({
+      data: {
+        about,
+        category,
+        destination,
+        imagePath,
+        title,
+        owner: { connect: { id: ownerId } },
+      },
+    });
+    return reply.code(200).send({ message: "Pin created successfully!" });
   } catch (error) {
     return reply.code(500).send(error);
   }

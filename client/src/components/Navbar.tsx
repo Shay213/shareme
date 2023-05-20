@@ -5,7 +5,7 @@ import { User } from '../interfaces'
 interface NavbarProps {
 	searchTerm: string
 	setSearchTerm: React.Dispatch<React.SetStateAction<string>>
-	user: User
+	user: User | undefined
 }
 
 const Navbar = ({ searchTerm, setSearchTerm, user }: NavbarProps) => {

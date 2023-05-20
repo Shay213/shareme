@@ -7,6 +7,7 @@ import { useState } from 'react'
 import getCurrUser from '../utils/getCurrUser'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import newRequest from '../utils/newRequest'
+import getDownloadLink from '../utils/getDownloadLink'
 
 const Pin = ({ pin }: { pin: FeedPin }) => {
 	const navigate = useNavigate()
@@ -18,7 +19,7 @@ const Pin = ({ pin }: { pin: FeedPin }) => {
 
 	const mutation = useMutation({
 		mutationFn: ({ pinId, userId }: { pinId: string; userId: string }) =>
-			newRequest.patch(`/pins/${pinId}`, { id: userId }),
+			newRequest.patch(`/pins/${pinId}`, { userId }),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['feed'] }),
 		onError: (err) => console.log(err),
 	})
@@ -46,7 +47,7 @@ const Pin = ({ pin }: { pin: FeedPin }) => {
 				onMouseLeave={() => setPostHovered(false)}
 				onClick={() => navigate(`/pin-detail/${pin.id}`)}
 				className={`
-          relative w-auto cursor-zoom-in overflow-hidden 
+          relative w-auto cursor-pointer overflow-hidden
           rounded-lg transition-all duration-500 ease-in-out hover:shadow-lg
         `}
 			>
@@ -60,7 +61,7 @@ const Pin = ({ pin }: { pin: FeedPin }) => {
 						<div className='flex items-center justify-between'>
 							<div className='flex gap-2'>
 								<a
-									href={`${pin.imagePath}?dl=`}
+									href={`${getDownloadLink(pin.imagePath)}?dl=`}
 									download
 									onClick={(e) => e.stopPropagation()}
 									className={`
@@ -111,11 +112,12 @@ const Pin = ({ pin }: { pin: FeedPin }) => {
                     p-2 px-4 font-bold text-black opacity-70 
                     hover:opacity-100 hover:shadow-md
                   `}
+									onClick={(e) => e.stopPropagation()}
 								>
 									<BsFillArrowUpRightCircleFill />
 									{pin?.destination.length > 20
-										? pin.destination.slice(8, 20)
-										: pin?.destination.slice(8)}
+										? pin.destination.slice(0, 20)
+										: pin?.destination}
 								</a>
 							)}
 							{pin?.owner?.id === user?.id && (

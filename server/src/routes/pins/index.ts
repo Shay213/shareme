@@ -4,16 +4,24 @@ import {
   getPinsByCategorySchema,
   savePinSchema,
   deletePinSchema,
+  createPinSchema,
 } from "./schemas";
-import { getPins, getPinsByCategory, savePin, deletePin } from "./handlers";
+import {
+  getPins,
+  getPinsByCategory,
+  savePin,
+  deletePin,
+  createPin,
+} from "./handlers";
 
 export default async (fastify: FastifyInstance) => {
-  fastify.get("/pins", { schema: getPinsSchema }, getPins);
+  fastify.get("/", { schema: getPinsSchema }, getPins);
   fastify.get(
-    "/pins/:categoryId",
+    "/:categoryId",
     { schema: getPinsByCategorySchema },
     getPinsByCategory
   );
-  fastify.patch("pins/:pinId", { schema: savePinSchema }, savePin);
-  fastify.delete("pins/:pinId", { schema: deletePinSchema }, deletePin);
+  fastify.patch("/:pinId", { schema: savePinSchema }, savePin);
+  fastify.delete("/:pinId", { schema: deletePinSchema }, deletePin);
+  fastify.post("/", { schema: createPinSchema }, createPin);
 };

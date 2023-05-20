@@ -10,18 +10,22 @@ import uploadFile from "./plugins/uploadFile";
 // routes
 import auth from "./routes/auth";
 import users from "./routes/users";
+import pins from "./routes/pins";
 
 const fastify = Fastify({ logger: true });
 fastify.register(fastifyCors, {
   credentials: true,
   origin: "http://localhost:5173",
 });
+
+// plugins
 fastify.register(prismaPlugin);
 fastify.register(uploadFile);
 
 // routes
 fastify.register(auth, { prefix: "/api/auth" });
 fastify.register(users, { prefix: "/api/users" });
+fastify.register(pins, { prefix: "/api/pins" });
 
 const start = async () => {
   try {

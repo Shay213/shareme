@@ -5,28 +5,60 @@ import { FastifyPluginCallback } from "fastify";
 import fp from "fastify-plugin";
 import path from "path";
 import fastifyMultipart from "@fastify/multipart";
-import { MultipartFile } from "@fastify/multipart";
+import fastifyStatic from "@fastify/static";
 
 const pump = util.promisify(pipeline);
 const uploadPath = path.join(process.cwd(), "/public/images");
+const accessFilesPath = "http://localhost:8800/api/uploads/";
 
 const uploadFile: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.register(fastifyMultipart);
 
-  fastify.addHook("onRequest", async (req, reply) => {
+  fastify.register(fastifyStatic, {
+    root: uploadPath,
+    prefix: "/api/uploads",
+  });
+
+  fastify.post("/api/files/upload", async (req, reply) => {
     if (req.isMultipart()) {
-      let body = {};
       const parts = req.parts();
+      const uploadedFilesPaths = [];
       for await (const part of parts) {
         if (part.type === "file") {
-          await pump(part.file, fs.createWriteStream(part.filename));
-        } else {
-          body = { ...body, [part.fieldname]: part.value };
+          try {
+            await pump(
+              part.file,
+              fs.createWriteStream(uploadPath + `/${part.filename}`)
+            );
+            uploadedFilesPaths.push(accessFilesPath + part.filename);
+          } catch (error) {
+            return reply.code(500).send(error);
+          }
         }
       }
-      req.body = body;
+      return reply.code(200).send(uploadedFilesPaths);
+    } else {
+      return reply.code(500).send({ message: "No files found!" });
     }
   });
+
+  fastify.get(
+    "/api/download/:filename",
+    {
+      schema: {
+        params: {
+          type: "object",
+          properties: { filename: { type: "string" } },
+          required: ["filename"],
+        },
+      },
+    },
+    (req, reply) => {
+      const { filename } = req.params as { filename: string };
+      reply.header("Content-Disposition", `attachment; filename="${filename}"`);
+      reply.sendFile(filename, uploadPath);
+    }
+  );
 
   done();
 };

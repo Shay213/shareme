@@ -5,10 +5,9 @@ import newRequest from '../utils/newRequest'
 import { useParams } from 'react-router-dom'
 
 const Feed = () => {
-	const [loading, setLoading] = useState(false)
 	const { categoryId } = useParams()
 
-	const { data, refetch } = useQuery({
+	const { isLoading, data, refetch } = useQuery({
 		queryKey: ['feed'],
 		queryFn: () =>
 			newRequest
@@ -17,13 +16,12 @@ const Feed = () => {
 	})
 
 	useEffect(() => {
-		setLoading(true)
 		if (categoryId) {
-			refetch().then(() => setLoading(false))
+			refetch()
 		}
 	}, [categoryId])
 
-	if (loading)
+	if (isLoading)
 		return <Spinner message='We are adding new ideas to your feed!' />
 
 	return <div>{data && <MasonryLayout pins={data} />}</div>

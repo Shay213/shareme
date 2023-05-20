@@ -113,3 +113,37 @@ export const deletePinSchema: FastifySchema = {
     200: deletePinSuccessReply,
   },
 };
+
+const createPinBody = {
+  type: "object",
+  properties: {
+    title: { type: "string" },
+    about: { type: "string" },
+    destination: { type: "string" },
+    category: { type: "string" },
+    imagePath: { type: "string" },
+    ownerId: { type: "string" },
+  },
+  required: [
+    "title",
+    "about",
+    "destination",
+    "category",
+    "imagePath",
+    "ownerId",
+  ],
+} as const;
+
+export type CreatePinBody = FromSchema<typeof createPinBody>;
+
+export const createPinSchema: FastifySchema = {
+  body: createPinBody,
+  response: {
+    200: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
