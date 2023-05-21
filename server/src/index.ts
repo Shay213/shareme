@@ -11,6 +11,7 @@ import uploadFile from "./plugins/uploadFile";
 import auth from "./routes/auth";
 import users from "./routes/users";
 import pins from "./routes/pins";
+import comments from "./routes/comments";
 
 const fastify = Fastify({ logger: true });
 fastify.register(fastifyCors, {
@@ -26,6 +27,7 @@ fastify.register(uploadFile);
 fastify.register(auth, { prefix: "/api/auth" });
 fastify.register(users, { prefix: "/api/users" });
 fastify.register(pins, { prefix: "/api/pins" });
+fastify.register(comments, { prefix: "/api/comments" });
 
 const start = async () => {
   try {

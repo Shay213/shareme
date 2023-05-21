@@ -140,7 +140,6 @@ export const getPin: RouteHandler<{ Params: GetPinParams }> = async (
       include: {
         owner: true,
         savedBy: true,
-        comments: true,
       },
     });
     return reply.code(200).send(pin);

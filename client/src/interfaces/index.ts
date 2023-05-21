@@ -37,16 +37,19 @@ export interface FeedPin {
 	savedBy: FeedPinsUser[]
 }
 
-interface Comments {
+export interface PinDetailComment {
 	id: string
 	description: string
-	ownerId: string
 	pinId: string
+	owner: {
+		id: string
+		imagePath: string
+		userName: string
+	}
 }
 
 export interface DetailsPin extends FeedPin {
 	title: string
 	about: string
 	category: string
-	comments: Comments[]
 }

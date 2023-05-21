@@ -115,8 +115,8 @@ const Pin = ({ pin }: { pin: FeedPin }) => {
 									onClick={(e) => e.stopPropagation()}
 								>
 									<BsFillArrowUpRightCircleFill />
-									{pin?.destination.length > 20
-										? pin.destination.slice(0, 20)
+									{pin?.destination.length > 15
+										? `${pin.destination.slice(0, 15)}...`
 										: pin?.destination}
 								</a>
 							)}

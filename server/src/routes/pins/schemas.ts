@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 import { FromSchema } from "json-schema-to-ts";
 
-const user = {
+export const user = {
   type: "object",
   properties: {
     id: { type: "string" },
@@ -167,21 +167,6 @@ const getPinSuccessReply = {
     title: { type: "string" },
     about: { type: "string" },
     category: { type: "string" },
-    comments: {
-      type: "array",
-      items: [
-        {
-          type: "object",
-          properties: {
-            id: { type: "string" },
-            description: { type: "string" },
-            pinId: { type: "string" },
-            ownerId: { type: "string" },
-          },
-          required: ["id", "description", "pinId", "ownerId"],
-        },
-      ],
-    },
   },
 };
 
