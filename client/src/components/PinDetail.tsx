@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { User } from '../interfaces'
 import { MdDownloadForOffline } from 'react-icons/md'
-import { MasonryLayout, Spinner } from '.'
+import { Spinner } from '.'
 import { useState } from 'react'
 import getDownloadLink from '../utils/getDownloadLink'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'

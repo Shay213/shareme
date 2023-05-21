@@ -1,6 +1,16 @@
 import { FastifySchema } from "fastify";
 import { FromSchema } from "json-schema-to-ts";
 
+const user = {
+  type: "object",
+  properties: {
+    id: { type: "string" },
+    userName: { type: "string" },
+    imagePath: { type: "string" },
+  },
+  required: ["id", "userName", "imagePath"],
+};
+
 const pins = {
   type: "object",
   properties: {
@@ -10,7 +20,11 @@ const pins = {
     destination: { type: "string" },
     category: { type: "string" },
     imagePath: { type: "string" },
-    ownerId: { type: "string" },
+    owner: user,
+    savedBy: {
+      type: "array",
+      items: user,
+    },
   },
 };
 

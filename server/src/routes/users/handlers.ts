@@ -11,11 +11,10 @@ export const getUser: RouteHandler<{ Params: GetUserParams }> = async (
       where: { id },
       include: {
         comments: true,
-        ownPins: true,
-        savedPins: true,
+        ownPins: { include: { owner: true, savedBy: true } },
+        savedPins: { include: { owner: true, savedBy: true } },
       },
     });
-    console.log(user);
     return reply.code(200).send(user);
   } catch (error) {
     return reply.code(500).send(error);

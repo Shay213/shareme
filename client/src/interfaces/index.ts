@@ -14,12 +14,26 @@ export interface Pin {
 	ownerId: string
 }
 
+export interface FeedPin {
+	id: string
+	imagePath: string
+	destination: string
+	owner: FeedPinsUser
+	savedBy: FeedPinsUser[]
+}
+
+export interface DetailsPin extends FeedPin {
+	title: string
+	about: string
+	category: string
+}
+
 export interface User {
 	id: string
 	userName: string
 	imagePath: string
-	ownPins: Pin[]
-	savedPins: Pin[]
+	ownPins: DetailsPin[]
+	savedPins: DetailsPin[]
 	comments: Comment[]
 }
 
@@ -27,14 +41,6 @@ interface FeedPinsUser {
 	id: string
 	userName: string
 	imagePath: string
-}
-
-export interface FeedPin {
-	id: string
-	imagePath: string
-	destination: string
-	owner: FeedPinsUser
-	savedBy: FeedPinsUser[]
 }
 
 export interface PinDetailComment {
@@ -46,10 +52,4 @@ export interface PinDetailComment {
 		imagePath: string
 		userName: string
 	}
-}
-
-export interface DetailsPin extends FeedPin {
-	title: string
-	about: string
-	category: string
 }

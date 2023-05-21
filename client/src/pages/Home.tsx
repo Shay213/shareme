@@ -64,7 +64,7 @@ const Home = () => {
 
 			<div className='h-screen flex-1 overflow-y-scroll pb-2' ref={scrollRef}>
 				<Routes>
-					<Route path='/user-profile/:id' element={<UserProfile />} />
+					<Route path='/user-profile/:userId' element={<UserProfile />} />
 					<Route path='/*' element={<Pins user={data && data} />} />
 				</Routes>
 			</div>
