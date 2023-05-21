@@ -6,6 +6,7 @@ import {
   deletePinSchema,
   createPinSchema,
   getPinSchema,
+  searchPinsSchema,
 } from "./schemas";
 import {
   getPins,
@@ -14,6 +15,7 @@ import {
   deletePin,
   createPin,
   getPin,
+  searchPins,
 } from "./handlers";
 
 export default async (fastify: FastifyInstance) => {
@@ -24,6 +26,7 @@ export default async (fastify: FastifyInstance) => {
     { schema: getPinsByCategorySchema },
     getPinsByCategory
   );
+  fastify.get("/search", { schema: searchPinsSchema }, searchPins);
   fastify.patch("/:pinId", { schema: savePinSchema }, savePin);
   fastify.delete("/:pinId", { schema: deletePinSchema }, deletePin);
   fastify.post("/", { schema: createPinSchema }, createPin);

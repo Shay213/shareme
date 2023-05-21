@@ -6,6 +6,7 @@ import {
   GetPinsByCategoryParams,
   SavePinBody,
   SavePinParams,
+  SearchPinsQuery,
 } from "./schemas";
 
 export const getPins: RouteHandler = async (req, reply) => {
@@ -143,6 +144,71 @@ export const getPin: RouteHandler<{ Params: GetPinParams }> = async (
       },
     });
     return reply.code(200).send(pin);
+  } catch (error) {
+    return reply.code(500).send(error);
+  }
+};
+
+export const searchPins: RouteHandler<{
+  Querystring: SearchPinsQuery;
+}> = async (req, reply) => {
+  const { term } = req.query;
+
+  try {
+    if (term === "") {
+      const pins = await req.server.prisma.pin.findMany({
+        select: {
+          id: true,
+          imagePath: true,
+          destination: true,
+          owner: {
+            select: {
+              id: true,
+              userName: true,
+              imagePath: true,
+            },
+          },
+          savedBy: {
+            select: {
+              id: true,
+              userName: true,
+              imagePath: true,
+            },
+          },
+        },
+      });
+      return reply.code(200).send(pins);
+    }
+    const pins = await req.server.prisma.pin.findMany({
+      where: {
+        OR: {
+          category: { contains: term, mode: "insensitive" },
+          title: { contains: term, mode: "insensitive" },
+          about: { contains: term, mode: "insensitive" },
+          destination: { contains: term, mode: "insensitive" },
+        },
+      },
+      select: {
+        id: true,
+        imagePath: true,
+        destination: true,
+        owner: {
+          select: {
+            id: true,
+            userName: true,
+            imagePath: true,
+          },
+        },
+        savedBy: {
+          select: {
+            id: true,
+            userName: true,
+            imagePath: true,
+          },
+        },
+      },
+    });
+    return reply.code(200).send(pins);
   } catch (error) {
     return reply.code(500).send(error);
   }

@@ -3,20 +3,12 @@ import { RiHomeFill } from 'react-icons/ri'
 import { IoIosArrowForward } from 'react-icons/io'
 import logo from '../assets/logo.png'
 import { Link, NavLink } from 'react-router-dom'
+import { CATEGORIES } from '../utils/data'
 
 interface SidebarProps {
 	user?: User
 	closeToggle?: React.Dispatch<React.SetStateAction<boolean>>
 }
-
-const categories = [
-	{ name: 'Animals' },
-	{ name: 'Wallpapers' },
-	{ name: 'Photography' },
-	{ name: 'Gaming' },
-	{ name: 'Coding' },
-	{ name: 'Other' },
-]
 
 const isNotActiveStyle =
 	'flex items-center px-5 gap-3 text-gray-500 hover:text-black transition-all duration-200 ease-in-out capitalize'
@@ -51,7 +43,7 @@ const Sidebar = ({ user, closeToggle }: SidebarProps) => {
 					<h3 className='mt-2 px-5 text-base 2xl:text-xl'>
 						Discover categories
 					</h3>
-					{categories.slice(0, categories.length - 1).map((c) => (
+					{CATEGORIES.slice(0, CATEGORIES.length - 1).map((c) => (
 						<NavLink
 							key={c.name}
 							to={`/category/${c.name.toLowerCase()}`}
@@ -60,6 +52,11 @@ const Sidebar = ({ user, closeToggle }: SidebarProps) => {
 							}
 							onClick={handleCloseSidebar}
 						>
+							<img
+								src={c.image}
+								alt='category-img'
+								className='h-8 w-8 rounded-full shadow-sm'
+							/>
 							{c.name}
 						</NavLink>
 					))}
@@ -68,7 +65,7 @@ const Sidebar = ({ user, closeToggle }: SidebarProps) => {
 			{user && (
 				<Link
 					to={`/user-profile/${user.id}`}
-					className='flex my-10 mb-3 gap-2 p-2 items-center bg-white rounded-lg shadow-md mx-3'
+					className='mx-3 my-10 mb-3 flex items-center gap-2 rounded-lg bg-white p-2 shadow-md'
 					onClick={handleCloseSidebar}
 				>
 					<img

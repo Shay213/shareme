@@ -176,3 +176,23 @@ export const getPinSchema: FastifySchema = {
     200: getPinSuccessReply,
   },
 };
+
+const searchPinsQuery = {
+  type: "object",
+  properties: {
+    term: { type: "string" },
+  },
+  required: ["term"],
+} as const;
+
+export type SearchPinsQuery = FromSchema<typeof searchPinsQuery>;
+
+export const searchPinsSchema: FastifySchema = {
+  querystring: searchPinsQuery,
+  response: {
+    200: {
+      type: "array",
+      items: pin,
+    },
+  },
+};
