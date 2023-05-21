@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import newRequest from '../utils/newRequest'
 import { DetailsPin } from '../interfaces'
 import Comments from './Comments'
+import RelatedPins from './RelatedPins'
 
 interface NewComment {
 	description: string
@@ -131,7 +132,7 @@ const PinDetail = ({ user }: { user: User | undefined }) => {
 				</div>
 			</div>
 			{/* RELATED PINS */}
-			{data?.length > 0}
+			<RelatedPins pin={data} />
 		</>
 	)
 }
