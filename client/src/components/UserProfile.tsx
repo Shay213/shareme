@@ -35,12 +35,14 @@ const UserProfile = () => {
 		refetch()
 	}, [activeBtn])
 
-	if (!currUser) {
+	if (!currUser) return null
+	if (isLoading) return <Spinner message='Loading user...' />
+	if (isError) return <p>User not found.</p>
+
+	const handleLogout = () => {
 		localStorage.clear()
 		navigate('/login')
 	}
-	if (isLoading) return <Spinner message='Loading user...' />
-	if (isError) return <p>User not found.</p>
 
 	return (
 		<div className='relative h-full items-center justify-center pb-2'>
@@ -61,7 +63,13 @@ const UserProfile = () => {
 							{data?.userName}
 						</h1>
 						<div className='z-1 absolute right-0 top-0 p-2'>
-							{userId === currUser?.id && <p>Logout</p>}
+							{userId === currUser?.id && (
+								<div className='flex'>
+									<button type='button' onClick={handleLogout}>
+										<AiOutlineLogout color='red' fontSize={35} />
+									</button>
+								</div>
+							)}
 						</div>
 					</div>
 					<div className='my-7 text-center'>

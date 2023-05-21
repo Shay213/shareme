@@ -108,16 +108,14 @@ const Pin = ({ pin }: { pin: FeedPin }) => {
 									target='_blank'
 									rel='noreferrer'
 									className={`
-                    flex items-center gap-2 rounded-full bg-white 
-                    p-2 px-4 font-bold text-black opacity-70 
-                    hover:opacity-100 hover:shadow-md
+                    flex items-center gap-2 overflow-hidden rounded-full 
+                    bg-white p-2 px-4 font-bold text-black 
+                    opacity-70 hover:opacity-100 hover:shadow-md
                   `}
 									onClick={(e) => e.stopPropagation()}
 								>
 									<BsFillArrowUpRightCircleFill />
-									{pin?.destination.length > 15
-										? `${pin.destination.slice(0, 15)}...`
-										: pin?.destination}
+									{pin?.destination}
 								</a>
 							)}
 							{pin?.owner?.id === user?.id && (
